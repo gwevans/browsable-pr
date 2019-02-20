@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import logo from '../../logo.svg';
 import '../../App.css';
 import { setLocation } from '../../foundational/reducers/location';
+import { getGithubInfo } from '../../foundational/reducers/github';
+
 
 class ViewPage extends Component {
 
@@ -10,6 +12,7 @@ class ViewPage extends Component {
         const { dispatch } = this.props;
 
         dispatch(setLocation(window.location));
+        dispatch(getGithubInfo(window.location.pathname));
     }
 
     render() {

@@ -1,6 +1,6 @@
-import location from './location';
+import github from './github';
 
 
 export default [
-    location
+    github
 ];

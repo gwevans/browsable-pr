@@ -7,7 +7,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import createReducer from './foundational/reducers/index';
-import locationSaga from './foundational/sagas/location';
+import githubSaga from './foundational/sagas/github';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -18,7 +18,7 @@ const store = createStore(
     composeEnhancers(applyMiddleware(sagaMiddleware))
 );
 
-sagaMiddleware.run(locationSaga);
+sagaMiddleware.run(githubSaga);
 
 const APP_NODE = document.getElementById('root');
 
