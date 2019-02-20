@@ -5,7 +5,8 @@ import { defineAction } from 'redux-define';
 const initialState = {
     isFetching: false,
     error: null,
-    data: {}
+    data: {},
+    files: []
 };
 
 export const GET_GITHUB_INFO = defineAction('GET_GITHUB_INFO', ['FETCHING', 'ERROR', 'SUCCESS'], 'info');
@@ -17,10 +18,11 @@ const reducer = handleActions({
         ...state,
         isFetching: true,
     }),
-    [GET_GITHUB_INFO.SUCCESS]: (state, { payload: { data } }) => {
+    [GET_GITHUB_INFO.SUCCESS]: (state, { payload: { data, files } }) => {
         return {
             ...state,
             data,
+            files,
             isFetching: false
         }
     },
