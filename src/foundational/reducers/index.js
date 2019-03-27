@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import locationReducer from './location';
-import githubReducer from './github';
+import location from './location';
+import github from './github';
+import app from './app';
 
 const rootReducer = combineReducers({
-    locationReducer,
-    githubReducer
+    location,
+    github,
+    app
 });
 
 export default rootReducer

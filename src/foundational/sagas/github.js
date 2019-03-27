@@ -4,19 +4,23 @@ import { GET_GITHUB_INFO } from '../reducers/github';
 
 function githubRequestPullRequest(params) {
     // TODO replace pull with pulls in url
+    const stripped = params.replace('/pull/', '/pulls/');
     return axios({
         method: 'get',
-        url: `https://api.github.com/repos${params}`
+        url: `https://api.github.com/repos${stripped}`
     });
 }
 
 function githubRequestPullRequestFiles(params) {
-    // TODO replace pull with pulls in url
+    const stripped = params.replace('/pull/', '/pulls/');
     return axios({
         method: 'get',
-        url: `https://api.github.com/repos${params}/files`
+        url: `https://api.github.com/repos${stripped}/files`
     });
 }
+
+
+// http://localhost:3000/octokit/rest.js/pulls/1224
 
 function* fetchFiles({ payload }) {
     try {

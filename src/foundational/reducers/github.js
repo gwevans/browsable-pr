@@ -35,4 +35,6 @@ const reducer = handleActions({
 
 export default reducer;
 
-export const dataSelector = state => state.data;
+export const dataSelector = state => state.github.data;
+
+export const filesSelector = state => state.github.files;

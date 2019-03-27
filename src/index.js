@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import indigo from '@material-ui/core/colors/indigo';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga'
@@ -22,9 +24,20 @@ sagaMiddleware.run(githubSaga);
 
 const APP_NODE = document.getElementById('root');
 
+const theme = createMuiTheme({
+  palette: {
+    primary: indigo,
+    secondary: {
+      main: '#81d4fa',
+    },
+  },
+});
+
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <MuiThemeProvider theme={theme}>
+            <App />
+        </MuiThemeProvider>
     </Provider>,
     APP_NODE
 );
