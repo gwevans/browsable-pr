@@ -20,7 +20,7 @@ function githubRequestPullRequestFiles(params) {
 }
 
 
-// http://localhost:3000/octokit/rest.js/pulls/1224
+// http://localhost:3000/reduxjs/reselect/pull/369
 
 function* fetchFiles({ payload }) {
     try {
