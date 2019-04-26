@@ -1,66 +1,51 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import set from 'lodash/set';
+import get from 'lodash/get';
 import { filesSelector } from '../../foundational/reducers/github';
 import { activeFileSelector } from '../../foundational/reducers/app';
 import File from './File.jsx';
 
 class FileTree extends Component {
 
-    createFileTree() {
+    getFileTreeObject() {
         const { files } = this.props;
-        const tree = { files: [] };
+        const tree = {files: []};
 
         files.forEach(file => {
-            // const filePathArray = file.filename.split('/');
-            // for (let i = 0; i < filePathArray.length; i++) {
-            //     if (i !== filePathArray.length) {
-            //         // TODO 
-            //         break;
-            //     }
-            //     if (i === 0) {
-
-            //     } else if (i === 1) {
-
-            //     } else if (i === 2) {
-
-            //     } else if (i === 3) {
-
-            //     } else if (i === 4) {
-
-            //     } else if (i === 5) {
-
-            //     }
-            // }
-            file.filename.split('/').forEach((folder, index) => {
-                const isFile = folder.includes('.');
-                // If cd is a folder and the key doesnt exist, create it
-                if (!isFile && !tree[folder]) {
-                    tree[folder] = { files: [] };
-                }
-
-                // 
-                if (isFile) {
-                    const path = file.filename.split('/');
-                    if (isFile && (index === 0)) {
-                        tree.files.push(path[0]);
-                    } else {
-                        tree[path[0]].files.push(path[1]);
-                    }
-                }
-            });
+            const fileArray = file.filename.split('/');
+            const fileName = fileArray[fileArray.length - 1];
+            const filePath = fileArray.splice(0, fileArray.length - 1);
+            set(tree, filePath, { files: [] });
+            const filesArray = get(tree, [...filePath, 'files'].join('.'));
+            const fileObject = {
+                fileName,
+                data: file
+            }
+            filesArray.push(fileObject);
         });
         return tree;
     }
 
+    renderFileTree() {
+        const tree = this.getFileTreeObject();
+        console.log('tree', tree);
+        const rootKeys = Object.keys(tree);
+
+        return rootKeys.map(folder => {
+            return <ul>{folder}</ul>
+        });
+    }
+
     render() {
         const { files, activeFile } = this.props;
-        console.log(this.createFileTree());
         return (
             <div style={{ float: "left" }}>
-                {files.map(file => {
+                {this.renderFileTree()}
+                {/* {files.map(file => {
                     const active = file.sha === activeFile.sha;
-                    return <File key={file.filename} fileData={file} active={active} />
-                })}
+                    return <File key={file.filename} data={file} active={active} />
+                })} */}
             </div>
         );
     }

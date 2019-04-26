@@ -7,18 +7,18 @@ import Typography from '@material-ui/core/Typography';
 class File extends Component {
 
     static propTypes = {
-        fileData: PropTypes.object,
+        data: PropTypes.object,
         active: PropTypes.bool,
     }
 
     static defaultProps = {
-        fileData: {},
+        data: {},
         active: false,
     }
 
     getFilename() {
-        const { fileData } = this.props;
-        return fileData.filename;
+        const { data } = this.props;
+        return data.filename;
     }
 
     getStyle() {
@@ -41,27 +41,28 @@ class File extends Component {
     }
 
     getColor() {
-        const { fileData } = this.props;
-        switch (fileData.status) {
+        const { data } = this.props;
+        switch (data.status) {
             case 'modified':
                 return 'default';
             case 'added':
                 return 'primary';
             case 'deleted':
                 return 'error';
+            default:
+                return 'default';
         }
     }
 
-    handleOnClick(fileData) {
+    handleOnClick(data) {
         const { dispatch } = this.props;
-        dispatch(setFileData(fileData));
+        dispatch(setFileData(data));
     }
 
     render() {
-        const { fileData } = this.props;
-
+        const { data } = this.props;
         return (
-            <div style={this.getStyle()} onClick={() => this.handleOnClick(fileData)}>
+            <div style={this.getStyle()} onClick={() => this.handleOnClick(data)}>
                 <Typography color={this.getColor()} component="h6" variant="h6">
                     {this.getFilename()}
                 </Typography>
