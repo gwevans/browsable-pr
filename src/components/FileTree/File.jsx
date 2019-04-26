@@ -18,7 +18,7 @@ class File extends Component {
 
     getFilename() {
         const { data } = this.props;
-        return data.filename;
+        return data.fileName;
     }
 
     getStyle() {
@@ -27,6 +27,7 @@ class File extends Component {
         let style = {
             cursor: 'pointer',
             padding: '2px 10px',
+            margin: '4px 0px'
         }
 
         if (active) {

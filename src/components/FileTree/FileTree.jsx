@@ -10,7 +10,7 @@ class FileTree extends Component {
 
     getFileTreeObject() {
         const { files } = this.props;
-        const tree = {files: []};
+        const tree = { files: [] };
 
         files.forEach(file => {
             const fileArray = file.filename.split('/');
@@ -27,25 +27,44 @@ class FileTree extends Component {
         return tree;
     }
 
-    renderFileTree() {
-        const tree = this.getFileTreeObject();
-        console.log('tree', tree);
+    testFunction(tree) {
+        const { activeFile } = this.props;
         const rootKeys = Object.keys(tree);
-
+        console.log(rootKeys);
         return rootKeys.map(folder => {
-            return <ul>{folder}</ul>
+            if (Array.isArray(tree[folder])) {
+                return tree[folder].map(file => {
+                    const active = file.sha === activeFile.sha;
+                    return <File key={file.filename} data={file} active={active} />;
+                });
+            }
+            console.log('folder', folder);
+            return this.testFunction(tree[folder]);
         });
     }
 
+    renderFileTree() {
+        const { activeFile } = this.props;
+        const tree = this.getFileTreeObject();
+        console.log('tree', tree);
+
+        return this.testFunction(tree);
+        // return rootKeys.map(folder => {
+        //     if (Array.isArray(tree[folder])) {
+        //         return tree[folder].map(file => {
+        //             const active = file.sha === activeFile.sha;
+        //             return <File key={file.filename} data={file} active={active} />;
+        //         });
+        //     }
+        //     return <ul>{folder}</ul>;
+        // });
+    }
+
     render() {
-        const { files, activeFile } = this.props;
+        // const { files, activeFile } = this.props;
         return (
-            <div style={{ float: "left" }}>
+            <div style={{ float: "left", margin: '20px 0px 0px 20px' }}>
                 {this.renderFileTree()}
-                {/* {files.map(file => {
-                    const active = file.sha === activeFile.sha;
-                    return <File key={file.filename} data={file} active={active} />
-                })} */}
             </div>
         );
     }
