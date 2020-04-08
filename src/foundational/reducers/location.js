@@ -33,3 +33,13 @@ export const pathnameSelector = createSelector(
     locationSelector,
     app => app.pathname
 );
+
+export const repoOwnerNameSelector = createSelector(
+    pathnameSelector,
+    pathname => pathname && pathname.length && pathname.split('/')[1]
+);
+
+export const repoNameSelector = createSelector(
+    pathnameSelector,
+    pathname => pathname && pathname.length && pathname.split('/')[2]
+);

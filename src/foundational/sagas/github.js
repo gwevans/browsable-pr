@@ -27,6 +27,7 @@ function* fetchFiles({ payload }) {
         yield put({ type: GET_GITHUB_INFO.FETCHING });
         const { data } = yield call(githubRequestPullRequest, payload);
         const { data: files } = yield call(githubRequestPullRequestFiles, payload);
+        console.log(files);
         yield put({ type: GET_GITHUB_INFO.SUCCESS, payload: { files, data } });
     } catch (e) {
         yield put({ type: GET_GITHUB_INFO.ERROR, payload: { error: e.message } });

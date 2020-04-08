@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import set from 'lodash/set';
 import get from 'lodash/get';
 import { filesSelector } from '../../foundational/reducers/github';
+import { repoNameSelector } from '../../foundational/reducers/location';
 import { activeFileSelector } from '../../foundational/reducers/app';
 import File from './File.jsx';
+import Folder from './Folder.jsx';
 
 class FileTree extends Component {
 
@@ -27,44 +29,33 @@ class FileTree extends Component {
         return tree;
     }
 
-    testFunction(tree) {
+    createFolder(tree, name = "") {
+        console.log(tree);
         const { activeFile } = this.props;
         const rootKeys = Object.keys(tree);
-        console.log(rootKeys);
-        return rootKeys.map(folder => {
-            if (Array.isArray(tree[folder])) {
-                return tree[folder].map(file => {
-                    const active = file.sha === activeFile.sha;
-                    return <File key={file.filename} data={file} active={active} />;
-                });
-            }
-            console.log('folder', folder);
-            return this.testFunction(tree[folder]);
-        });
-    }
-
-    renderFileTree() {
-        const { activeFile } = this.props;
-        const tree = this.getFileTreeObject();
-        console.log('tree', tree);
-
-        return this.testFunction(tree);
-        // return rootKeys.map(folder => {
-        //     if (Array.isArray(tree[folder])) {
-        //         return tree[folder].map(file => {
-        //             const active = file.sha === activeFile.sha;
-        //             return <File key={file.filename} data={file} active={active} />;
-        //         });
-        //     }
-        //     return <ul>{folder}</ul>;
-        // });
+        return (
+            <>
+                <Folder name={name}>
+                    {rootKeys.map(folder => {
+                        if (Array.isArray(tree[folder])) {
+                            return tree[folder].map(file => {
+                                const active = file.data.sha === activeFile.sha;
+                                return <File key={file.fileName} fileName={file.fileName} data={file.data} active={active} />;
+                            });
+                        }
+                        return this.createFolder(tree[folder], folder);
+                    })}
+                </Folder>
+            </>
+        );
     }
 
     render() {
-        // const { files, activeFile } = this.props;
+        const {repoName} = this.props;
+
         return (
-            <div style={{ float: "left", margin: '20px 0px 0px 20px' }}>
-                {this.renderFileTree()}
+            <div style={{ float: "left", margin: '20px 0px 0px 0px' }}>
+                {this.createFolder(this.getFileTreeObject(), repoName)}
             </div>
         );
     }
@@ -72,7 +63,8 @@ class FileTree extends Component {
 
 const mapStateToProps = state => ({
     files: filesSelector(state),
-    activeFile: activeFileSelector(state)
+    activeFile: activeFileSelector(state),
+    repoName: repoNameSelector(state),
 })
 
 export default connect(mapStateToProps)(FileTree);

@@ -17,8 +17,8 @@ class File extends Component {
     }
 
     getFilename() {
-        const { data } = this.props;
-        return data.fileName;
+        const { fileName } = this.props;
+        return fileName;
     }
 
     getStyle() {
@@ -26,8 +26,9 @@ class File extends Component {
 
         let style = {
             cursor: 'pointer',
-            padding: '2px 10px',
-            margin: '4px 0px'
+            padding: '4px 10px',
+            margin: '4px 0px',
+            listStyleType: 'none',
         }
 
         if (active) {
@@ -63,11 +64,11 @@ class File extends Component {
     render() {
         const { data } = this.props;
         return (
-            <div style={this.getStyle()} onClick={() => this.handleOnClick(data)}>
-                <Typography color={this.getColor()} component="h6" variant="h6">
+            <li style={this.getStyle()} onClick={() => this.handleOnClick(data)}>
+                <Typography color={this.getColor()} variant="body1">
                     {this.getFilename()}
                 </Typography>
-            </div>
+            </li>
         );
     }
 }
